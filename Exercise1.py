@@ -7,4 +7,4 @@ for y in range(h):
 # Double for-loop to handle convolution with pixel matrices from image
 for j in range(w):
     for i in range(h):
-        print(kernelMatrix[j][i]);
+        print(kernelMatrix[j][i])
