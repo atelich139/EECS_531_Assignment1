@@ -10,6 +10,7 @@ pixelMatrix = []
 for y in range(h2):
     pixelMatrix.append([0 for x in range(w2)])
 
+# TODO algorithm for calculating Gaussian for each element in pixel matrix
 # TODO set up logic for inputting an image
 # TODO outer for loop to iterate through image pixels
 
@@ -23,5 +24,3 @@ for j in range(w1):
         accumulator = accumulator + product
 
 # Once done with convolution for each pixel set output image pixel equal to accumulator
-
-
