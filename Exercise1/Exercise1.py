@@ -1,3 +1,13 @@
+import numpy as np
+
+# Setting up the Gaussian transformation function
+x = 0  # Set to the x coordinate of the pixel
+y = 0  # Set to the y coordinate of the pixel
+sigma = 0.84089642  # Standard deviation of Gaussian distribution
+gaussian = (1 / 2 * np.pi * sigma ^ 2) * np.e ^ (-(((x ^ 2) + (y ^ 2)) / (2 * sigma ^ 2)))
+
+# TODO algorithm for calculating Gaussian transformation for each element in pixel matrix
+
 # Defines the 5x5 kernel matrix
 w1, h1 = 5, 5
 kernelMatrix = []
@@ -10,7 +20,6 @@ pixelMatrix = []
 for y in range(h2):
     pixelMatrix.append([0 for x in range(w2)])
 
-# TODO algorithm for calculating Gaussian for each element in pixel matrix
 # TODO set up logic for inputting an image
 # TODO outer for loop to iterate through image pixels
 
@@ -24,3 +33,4 @@ for j in range(w1):
         accumulator = accumulator + product
 
 # Once done with convolution for each pixel set output image pixel equal to accumulator
+
