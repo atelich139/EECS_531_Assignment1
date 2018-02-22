@@ -1,36 +1,57 @@
+import cv2 as cv
 import numpy as np
 
-# Setting up the Gaussian transformation function
-x = 0  # Set to the x coordinate of the pixel
-y = 0  # Set to the y coordinate of the pixel
-sigma = 0.84089642  # Standard deviation of Gaussian distribution
-gaussian = (1 / 2 * np.pi * sigma ^ 2) * np.e ^ (-(((x ^ 2) + (y ^ 2)) / (2 * sigma ^ 2)))
+# Reads the image into a variable
+img = cv.imread('Exercise1_Image.jpg')
 
-# TODO algorithm for calculating Gaussian transformation for each element in pixel matrix
 
-# Defines the 5x5 kernel matrix
-w1, h1 = 5, 5
-kernelMatrix = []
-for y in range(h1):
-    kernelMatrix.append([0 for x in range(w1)])
+# Function to calculate the Gaussian transformation of a given point
+def gaussian(x, y, sigma):
+    g = np.multiply(np.divide(1, 2 * np.pi * np.power(sigma, 2)), np.exp(
+        np.divide(-(np.power(x, 2) + np.power(y, 2)),
+                  np.multiply(2, np.power(sigma, 2)))))
+    return g
 
-# Defines the 5x5 pixel matrix
-w2, h2 = 5, 5
-pixelMatrix = []
-for y in range(h2):
-    pixelMatrix.append([0 for x in range(w2)])
 
-# TODO set up logic for inputting an image
-# TODO outer for loop to iterate through image pixels
+# Function to calculate the kernel matrix of an inputted size
+# x: width, y: height
+def kernel(x1, y1, sigma):
+    w, h = x1, y1 - 1
+    w2 = w / 2
+    h2 = h / 2
+    matrix = []
+    for y in range(int(h2), int(-h2 - 1), -1):
+        matrix.append([gaussian(x, y, sigma) for x in range(int(w2), int(-w2 - 1), -1)])
+    return np.array(matrix)
 
-# Variable for result of convolution for each pixel and kernel
-accumulator = 0
 
-# Double for-loop to handle convolution with pixel matrices from image
-for j in range(w1):
-    for i in range(h1):
-        product = kernelMatrix[j][i] * pixelMatrix[j][i]
-        accumulator = accumulator + product
+# Function to convolude kernel matrix and image pixel matrix
+def convolution(kernelMatrix, image):
+    (imageHeight, imageWidth) = image.shape[:2]
+    (kernelHeight, kernelWidth) = kernelMatrix.shape[:2]
 
-# Once done with convolution for each pixel set output image pixel equal to accumulator
+    # Generates a padding based on kernel matrix width minus 1 and divided by 2
+    padding = int(np.divide(kernelWidth - 1, 2))
 
+    # Makes a border around the image with the size of the padding
+    image = cv.copyMakeBorder(image, padding, padding, padding, padding,
+                              cv.BORDER_REPLICATE)
+    imageArray = np.array(image)
+
+    # Convolution of the kernel matrix and the image pixel matrix
+    for i in np.arange(padding, imageHeight + padding):
+        for j in np.arange(padding, imageWidth + padding):
+            patch = image[i - padding:i + padding + 1, j - padding:j + padding + 1]
+
+            convolve = (patch * kernelMatrix).sum()
+
+            imageArray[i - padding, j - padding] = convolve
+
+    return imageArray
+
+
+imageBlurred = convolution(kernel(3, 3, 0.84089642), img)
+
+cv.imshow('image', imageBlurred)
+cv.imwrite('Exercise1_OutputImage.png', imageBlurred)
+cv.waitKey(0)
