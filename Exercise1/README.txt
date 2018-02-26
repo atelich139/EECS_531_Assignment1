@@ -5,4 +5,5 @@ implement an image blur filter "by hand".
 functions for creating a kernel (of any kind and size), a function for computing a 2D
 Gaussian transformation, and a function for performing convolution.
 
-    The write up is in LaTeX format and the formatted pdf is attached.
+    The write up explaining the math behind Gaussian image blurring and displaying my
+results is in LaTeX format and the formatted pdf is attached.
