@@ -1,4 +1,7 @@
-# EECS_531_Assignment1
+# Assignment 1 for EECS 591: Computer Vision
+## Dates
+2/7/2018 - 2/21/2018
+## Description
 This is the first assignment for the graduate level class EECS 531: Computer Vision.
 
 This assignment consisted of 4 exercises.
